@@ -16,7 +16,7 @@ app.use('/mortgage', mortgageRouter);
 
 // Conect To DB
 mongoose.connect(
-  process.env.MONGO || '',
+  process.env.MONGO_URI || '',
   {
     useUnifiedTopology: true,
     useNewUrlParser: true
