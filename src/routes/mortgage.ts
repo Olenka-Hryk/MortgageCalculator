@@ -1,4 +1,5 @@
 import express from 'express';
+import { Document } from 'mongoose';
 import { BankModel } from '../models/bank';
 import { MortgageModel } from '../models/mortgage';
 
@@ -6,8 +7,11 @@ const router = express.Router();
 
 //Input date with validation. Calculate monthly mortgage payment
 router.post('/', async (req, res) => {
-  const bank = await BankModel.findById(req.body.bank);
+  let bank: Document<any> | null = null;
+
   try {
+    bank = await BankModel.findById(req.body.bank);
+
     // General validation
     await MortgageModel.validate(req.body);
     const bankExists = await BankModel.exists(req.body.bank);

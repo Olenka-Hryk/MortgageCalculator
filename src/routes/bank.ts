@@ -1,5 +1,6 @@
 import express from 'express';
 import { BankModel } from '../models/bank';
+import { MortgageModel } from '../models/mortgage';
 
 const router = express.Router();
 
@@ -27,6 +28,14 @@ router.get('/:id', async (req, res) => {
 // Delete bank by id
 router.delete('/:id', async (req, res) => {
   try {
+    const id = req.params.id;
+
+    const exists = await MortgageModel.exists({ bank: id });
+
+    if (exists) {
+      return res.status(400).json('Bad Request');
+    }
+
     const deleted = await BankModel.findByIdAndDelete(req.params.id);
     res.status(200).json(deleted);
   } catch (err) {

@@ -3,11 +3,10 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
-import { config as dbConfig } from './config/db';
 import { router as bankRouter } from './routes/bank';
 import { router as mortgageRouter } from './routes/mortgage';
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.use(cors());
@@ -17,7 +16,7 @@ app.use('/mortgage', mortgageRouter);
 
 // Conect To DB
 mongoose.connect(
-  dbConfig.connectionString,
+  process.env.MONGO || '',
   {
     useUnifiedTopology: true,
     useNewUrlParser: true
